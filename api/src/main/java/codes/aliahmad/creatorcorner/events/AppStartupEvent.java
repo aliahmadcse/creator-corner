@@ -12,5 +12,6 @@ public class AppStartupEvent implements ApplicationListener<ApplicationReadyEven
   public void onApplicationEvent(ApplicationReadyEvent event)
   {
     System.out.println("Application started");
+    System.out.println("Application ready event fired");
   }
 }
