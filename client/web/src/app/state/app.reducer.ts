@@ -9,9 +9,13 @@ export const reducers: ActionReducerMap<AppState> = {
   user: userReducer,
 };
 
-export function debug(
-  reducer: ActionReducer<AppState>
-): ActionReducer<AppState> {
+/**
+ * This method acts as a interceptor for all the actions dispatched in the application.
+ *
+ * @param reducer - The reducer function
+ * @returns - A reducer function
+ */
+export function debug(reducer: ActionReducer<AppState>): ActionReducer<AppState> {
   return function (state, action) {
     console.log('state', state);
     console.log('action', action);
