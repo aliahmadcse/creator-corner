@@ -1,16 +1,23 @@
 import { isDevMode } from '@angular/core';
-import {
-  ActionReducerMap,
-  MetaReducer
-} from '@ngrx/store';
+import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
+import { productReducer } from '../product/state/product.reducer';
+import { userReducer } from '../user/state/user.reducer';
+import { AppState } from './app.state';
 
-export interface State {
-
-}
-
-export const reducers: ActionReducerMap<State> = {
-
+export const reducers: ActionReducerMap<AppState> = {
+  products: productReducer,
+  user: userReducer,
 };
 
+export function debug(
+  reducer: ActionReducer<AppState>
+): ActionReducer<AppState> {
+  return function (state, action) {
+    console.log('state', state);
+    console.log('action', action);
 
-export const metaReducers: MetaReducer<State>[] = isDevMode() ? [] : [];
+    return reducer(state, action);
+  };
+}
+
+export const metaReducers: MetaReducer<AppState>[] = isDevMode() ? [debug] : [];

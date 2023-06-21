@@ -1,6 +1,7 @@
 import { createReducer } from '@ngrx/store';
+import { Product } from '../product.types';
 
-const initialProductState = {
+const initialProductState: Product = {
   name: '',
   type: '',
   upvotes: 0,

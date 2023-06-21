@@ -1,9 +1,7 @@
-
+import { Product } from '../product/product.types';
+import { User } from '../user/user.types';
 
 export interface AppState {
-  user: unknown;
-  products: unknown;
-
-  
+  user: User;
+  products: Product;
 }
-

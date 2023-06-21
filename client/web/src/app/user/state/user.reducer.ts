@@ -1,6 +1,9 @@
 import { createReducer } from '@ngrx/store';
+import { User } from '../user.types';
 
-const initialUserState = {
+
+
+const initialUserState: User = {
   email: '',
   name: '',
 };
