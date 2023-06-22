@@ -10,8 +10,11 @@ export class HttpService {
 
   constructor(private httpClient: HttpClient) {}
 
-  get(path: string) {
-    return this.httpClient.get(this.API_URL + path);
+  get<T>(path: string) {
+    // return this.httpClient.get<T>(this.API_URL + path);
+    return this.httpClient.get<T>(
+      'https://jsonplaceholder.typicode.com/todos/1'
+    );
   }
 
   post(path: string, body: any) {
