@@ -19,9 +19,9 @@ public class User extends BaseEntity
   private String firstName;
   private String lastName;
   private String email;
+  private String password;
 
   //  TODO: should be text field
-  private String password;
   private String headline;
   private String bio;
 }
