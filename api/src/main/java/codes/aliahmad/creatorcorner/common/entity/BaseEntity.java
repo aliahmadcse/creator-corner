@@ -1,4 +1,4 @@
-package codes.aliahmad.creatorcorner.entity;
+package codes.aliahmad.creatorcorner.common.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;

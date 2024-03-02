@@ -1,8 +1,8 @@
-package codes.aliahmad.creatorcorner.resource;
+package codes.aliahmad.creatorcorner.user.resource;
 
 
-import codes.aliahmad.creatorcorner.entity.User;
-import codes.aliahmad.creatorcorner.service.UserService;
+import codes.aliahmad.creatorcorner.user.entity.User;
+import codes.aliahmad.creatorcorner.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 public class UserResource
 {

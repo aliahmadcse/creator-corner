@@ -1,10 +1,11 @@
-package codes.aliahmad.creatorcorner.repository;
+package codes.aliahmad.creatorcorner.user.repository;
 
-import codes.aliahmad.creatorcorner.entity.User;
+import codes.aliahmad.creatorcorner.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>
 {
+  boolean existsByEmail(String email);
 }
