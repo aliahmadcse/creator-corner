@@ -9,7 +9,7 @@ import codes.aliahmad.creatorcorner.user.entity.Role;
 import codes.aliahmad.creatorcorner.user.entity.User;
 import codes.aliahmad.creatorcorner.user.model.ERole;
 import codes.aliahmad.creatorcorner.user.security.model.UserDetailsModel;
-import codes.aliahmad.creatorcorner.user.security.util.JwtUtil;
+import codes.aliahmad.creatorcorner.user.security.helper.JwtHelper;
 import codes.aliahmad.creatorcorner.user.service.AuthService;
 import codes.aliahmad.creatorcorner.user.service.RoleService;
 import codes.aliahmad.creatorcorner.user.service.UserService;
@@ -32,7 +32,7 @@ public class AuthServiceImpl implements AuthService
   private final RoleService roleService;
   private final PasswordEncoder encoder;
   private final AuthenticationManager authenticationManager;
-  private final JwtUtil jwtUtil;
+  private final JwtHelper jwtHelper;
 //  private final SessionService sessionService;
 
   @Override
@@ -51,7 +51,6 @@ public class AuthServiceImpl implements AuthService
             .password(encoder.encode(Arrays.toString(signUpRequest.getPassword())))
             .role(role)
             .build();
-//    Arrays.fill(signUpRequest.getPassword(), '\0');
 
     User _ = userService.save(userToSave);
 
@@ -68,8 +67,10 @@ public class AuthServiceImpl implements AuthService
     Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(email, password));
 
+    Arrays.fill(password, '\0');
+
     SecurityContextHolder.getContext().setAuthentication(authentication);
-    String jwt = jwtUtil.generateJwtToken(authentication);
+    String jwt = jwtHelper.generateJwtToken(authentication);
 
     UserDetailsModel userDetails = (UserDetailsModel) authentication.getPrincipal();
 

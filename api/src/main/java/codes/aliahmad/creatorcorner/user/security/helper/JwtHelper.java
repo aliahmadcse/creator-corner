@@ -1,4 +1,4 @@
-package codes.aliahmad.creatorcorner.user.security.util;
+package codes.aliahmad.creatorcorner.user.security.helper;
 
 import codes.aliahmad.creatorcorner.user.security.model.UserDetailsModel;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -18,7 +18,7 @@ import java.util.Date;
 
 @Component
 @Slf4j
-public class JwtUtil
+public class JwtHelper
 {
   @Value("${gigamatic.jwt.secret}")
   private String jwtSecret;

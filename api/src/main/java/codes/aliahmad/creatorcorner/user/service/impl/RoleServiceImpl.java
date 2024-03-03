@@ -1,8 +1,6 @@
 package codes.aliahmad.creatorcorner.user.service.impl;
 
-import codes.aliahmad.creatorcorner.common.exception.BusinessError;
 import codes.aliahmad.creatorcorner.common.exception.BusinessException;
-import codes.aliahmad.creatorcorner.common.exception.ErrorType;
 import codes.aliahmad.creatorcorner.common.exception.ExceptionType;
 import codes.aliahmad.creatorcorner.user.entity.Role;
 import codes.aliahmad.creatorcorner.user.model.ERole;
@@ -22,16 +20,8 @@ public class RoleServiceImpl implements RoleService
   @Override
   public Role findByName(ERole name)
   {
-    try
-    {
-      return roleRepository.findByName(name)
-              .orElseThrow(() -> new BusinessException(ExceptionType.ROLE_NOT_FOUND));
-    }
-    catch (Exception e)
-    {
-      log.error(e.getMessage(), e);
-      throw new BusinessError(ErrorType.INTERNAL_SERVER_ERROR);
-    }
+    return roleRepository.findByName(name)
+            .orElseThrow(() -> new BusinessException(ExceptionType.ROLE_NOT_FOUND));
 
   }
 }

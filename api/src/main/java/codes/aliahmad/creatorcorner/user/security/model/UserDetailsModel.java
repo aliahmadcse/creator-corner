@@ -34,7 +34,6 @@ public class UserDetailsModel implements UserDetails
             authorities);
   }
 
-
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities()
   {

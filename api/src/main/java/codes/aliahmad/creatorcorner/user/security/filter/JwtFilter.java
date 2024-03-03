@@ -1,14 +1,13 @@
 package codes.aliahmad.creatorcorner.user.security.filter;
 
+import codes.aliahmad.creatorcorner.user.security.helper.JwtHelper;
 import codes.aliahmad.creatorcorner.user.security.service.UserDetailsServiceImpl;
-import codes.aliahmad.creatorcorner.user.security.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,16 +17,16 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Objects;
 
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class JwtFilter extends OncePerRequestFilter
 {
-  private final JwtUtil jwtUtils;
+  private final JwtHelper jwtHelper;
   private final UserDetailsServiceImpl userDetailsService;
-
-  private static final Logger logger = LoggerFactory.getLogger(JwtFilter.class);
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -36,9 +35,9 @@ public class JwtFilter extends OncePerRequestFilter
     try
     {
       String jwt = parseJwt(request);
-      if (jwt != null && jwtUtils.validateJwtToken(jwt))
+      if (Objects.nonNull(jwt) && jwtHelper.validateJwtToken(jwt))
       {
-        String username = jwtUtils.getUserNameFromJwtToken(jwt);
+        String username = jwtHelper.getUserNameFromJwtToken(jwt);
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         UsernamePasswordAuthenticationToken authentication =
@@ -53,7 +52,7 @@ public class JwtFilter extends OncePerRequestFilter
     }
     catch (Exception e)
     {
-      logger.error("Cannot set user authentication: {}", e.getMessage());
+      log.error("Cannot set user authentication: {}", e.getMessage());
     }
 
     filterChain.doFilter(request, response);

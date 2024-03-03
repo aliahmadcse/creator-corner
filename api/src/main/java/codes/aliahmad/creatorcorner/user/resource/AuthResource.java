@@ -29,7 +29,6 @@ public class AuthResource
     return ResponseEntity.ok(authService.authenticateUser(signInRequest));
   }
 
-
   @PostMapping("/signup")
   public ResponseEntity<JwtResponse> registerUser(@Valid @RequestBody SignUpRequest signUpRequest)
   {
