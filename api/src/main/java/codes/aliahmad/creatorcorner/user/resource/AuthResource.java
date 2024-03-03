@@ -1,6 +1,7 @@
 package codes.aliahmad.creatorcorner.user.resource;
 
 
+import codes.aliahmad.creatorcorner.user.dto.request.SignInRequest;
 import codes.aliahmad.creatorcorner.user.dto.request.SignUpRequest;
 import codes.aliahmad.creatorcorner.user.dto.response.JwtResponse;
 import codes.aliahmad.creatorcorner.user.service.AuthService;
@@ -22,11 +23,11 @@ public class AuthResource
   private final AuthService authService;
 
 
-//  @PostMapping("/signin")
-//  public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody SignInRequest signInRequest)
-//  {
-//    return ResponseEntity.ok(authService.authenticateUser(signInRequest));
-//  }
+  @PostMapping("/signin")
+  public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody SignInRequest signInRequest)
+  {
+    return ResponseEntity.ok(authService.authenticateUser(signInRequest));
+  }
 
 
   @PostMapping("/signup")

@@ -75,4 +75,21 @@ public class UserServiceImpl implements UserService
       throw new BusinessError(ErrorType.INTERNAL_SERVER_ERROR);
     }
   }
+
+  @Override
+  public User findByEmail(String email)
+  {
+    try
+    {
+      return userRepository.findByEmail(email)
+              .orElseThrow(() -> new BusinessException(ExceptionType.USER_NOT_FOUND));
+    }
+    catch (Exception e)
+    {
+      log.error(e.getMessage(), e);
+      throw new BusinessError(ErrorType.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+
 }

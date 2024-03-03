@@ -19,7 +19,6 @@ public class CustomExceptionHandler
     return new ResponseEntity<>(response, ex.getExceptionType().getStatus());
   }
 
-
   @ExceptionHandler(AuthenticationException.class)
   public ResponseEntity<ErrorResponse> handleAuthenticationException(AuthenticationException ex)
   {
