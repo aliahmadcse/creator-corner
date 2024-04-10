@@ -11,6 +11,6 @@ public class SignUpRequest
 {
   @NotBlank(message = "Email can't be empty")
   private String email;
-//  @NotBlank(message = "Password can't be empty'")
-  private char[] password;
+  @NotBlank(message = "Password can't be empty")
+  private String password;
 }

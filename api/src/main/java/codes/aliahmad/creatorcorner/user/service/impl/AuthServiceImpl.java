@@ -8,8 +8,8 @@ import codes.aliahmad.creatorcorner.user.dto.response.JwtResponse;
 import codes.aliahmad.creatorcorner.user.entity.Role;
 import codes.aliahmad.creatorcorner.user.entity.User;
 import codes.aliahmad.creatorcorner.user.model.ERole;
-import codes.aliahmad.creatorcorner.user.security.model.UserDetailsModel;
 import codes.aliahmad.creatorcorner.user.security.helper.JwtHelper;
+import codes.aliahmad.creatorcorner.user.security.model.UserDetailsModel;
 import codes.aliahmad.creatorcorner.user.service.AuthService;
 import codes.aliahmad.creatorcorner.user.service.RoleService;
 import codes.aliahmad.creatorcorner.user.service.UserService;
@@ -21,8 +21,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Arrays;
 
 @Service
 @RequiredArgsConstructor
@@ -47,8 +45,7 @@ public class AuthServiceImpl implements AuthService
 
     // Create new user's account
     User userToSave = User.builder().email(signUpRequest.getEmail())
-//            potential risk of password breach
-            .password(encoder.encode(Arrays.toString(signUpRequest.getPassword())))
+            .password(encoder.encode(signUpRequest.getPassword()))
             .role(role)
             .build();
 
@@ -62,34 +59,15 @@ public class AuthServiceImpl implements AuthService
     return authenticateUser(signInRequest.getEmail(), signInRequest.getPassword());
   }
 
-  private JwtResponse authenticateUser(String email, char[] password)
+  private JwtResponse authenticateUser(String email, String password)
   {
     Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(email, password));
 
-    Arrays.fill(password, '\0');
 
     SecurityContextHolder.getContext().setAuthentication(authentication);
     String jwt = jwtHelper.generateJwtToken(authentication);
-
     UserDetailsModel userDetails = (UserDetailsModel) authentication.getPrincipal();
-
-    User _ = userService.findByEmail(userDetails.getUsername());
-
-//    Session session;
-//    if (user.getSession() == null)
-//    {
-//      session = Session.builder().token(jwt).build();
-//      user.setSession(session);
-//      sessionService.save(session);
-//      userService.save(user);
-//    }
-//    else
-//    {
-//      session = user.getSession();
-//      session.setToken(jwt);
-//      sessionService.save(session);
-//    }
 
     String role = userDetails.getAuthorities()
             .stream()

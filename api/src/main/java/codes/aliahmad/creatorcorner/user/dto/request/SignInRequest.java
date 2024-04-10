@@ -16,5 +16,5 @@ public class SignInRequest
   @NotBlank(message = "Email can't be empty")
   private String email;
   @NotBlank(message = "Password can't be empty")
-  private char[] password;
+  private String password;
 }
