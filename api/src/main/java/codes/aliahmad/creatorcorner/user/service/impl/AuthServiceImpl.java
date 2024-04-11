@@ -6,14 +6,17 @@ import codes.aliahmad.creatorcorner.user.dto.request.SignInRequest;
 import codes.aliahmad.creatorcorner.user.dto.request.SignUpRequest;
 import codes.aliahmad.creatorcorner.user.dto.response.JwtResponse;
 import codes.aliahmad.creatorcorner.user.entity.Role;
+import codes.aliahmad.creatorcorner.user.entity.Session;
 import codes.aliahmad.creatorcorner.user.entity.User;
 import codes.aliahmad.creatorcorner.user.model.ERole;
 import codes.aliahmad.creatorcorner.user.security.helper.JwtHelper;
 import codes.aliahmad.creatorcorner.user.security.model.UserDetailsModel;
 import codes.aliahmad.creatorcorner.user.service.AuthService;
 import codes.aliahmad.creatorcorner.user.service.RoleService;
+import codes.aliahmad.creatorcorner.user.service.SessionService;
 import codes.aliahmad.creatorcorner.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,6 +24,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +36,10 @@ public class AuthServiceImpl implements AuthService
   private final PasswordEncoder encoder;
   private final AuthenticationManager authenticationManager;
   private final JwtHelper jwtHelper;
-//  private final SessionService sessionService;
+  private final SessionService sessionService;
+
+  @Value("${app.jwt.expiration-sec}")
+  private int JWT_EXPIRATION_SEC;
 
   @Override
   public JwtResponse registerUser(SignUpRequest signUpRequest)
@@ -64,7 +72,6 @@ public class AuthServiceImpl implements AuthService
     Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(email, password));
 
-
     SecurityContextHolder.getContext().setAuthentication(authentication);
     String jwt = jwtHelper.generateJwtToken(authentication);
     UserDetailsModel userDetails = (UserDetailsModel) authentication.getPrincipal();
@@ -74,6 +81,9 @@ public class AuthServiceImpl implements AuthService
             .findFirst()
             .map(GrantedAuthority::getAuthority)
             .orElse(ERole.USER.getValue());
+
+    sessionService.saveSession(new Session(jwt, email, LocalDateTime.now().plusSeconds(JWT_EXPIRATION_SEC),
+            true, ERole.valueOf(role)));
 
     return new JwtResponse(jwt, userDetails.getUsername(), role);
   }

@@ -20,10 +20,10 @@ import java.util.Date;
 @Slf4j
 public class JwtHelper
 {
-  @Value("${gigamatic.jwt.secret}")
+  @Value("${app.jwt.secret}")
   private String jwtSecret;
 
-  @Value("${gigamatic.jwt.expiration-sec}")
+  @Value("${app.jwt.expiration-sec}")
   private int JWT_EXPIRATION_SEC;
 
   public String generateJwtToken(Authentication authentication)

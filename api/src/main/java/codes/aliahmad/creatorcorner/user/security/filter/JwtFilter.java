@@ -1,7 +1,8 @@
 package codes.aliahmad.creatorcorner.user.security.filter;
 
-import codes.aliahmad.creatorcorner.user.security.helper.JwtHelper;
-import codes.aliahmad.creatorcorner.user.security.service.UserDetailsServiceImpl;
+import codes.aliahmad.creatorcorner.user.entity.Session;
+import codes.aliahmad.creatorcorner.user.security.model.UserDetailsModel;
+import codes.aliahmad.creatorcorner.user.service.SessionService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 
@@ -25,8 +27,7 @@ import java.util.Objects;
 @Slf4j
 public class JwtFilter extends OncePerRequestFilter
 {
-  private final JwtHelper jwtHelper;
-  private final UserDetailsServiceImpl userDetailsService;
+  private final SessionService sessionService;
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -34,19 +35,18 @@ public class JwtFilter extends OncePerRequestFilter
   {
     try
     {
-      String jwt = parseJwt(request);
-      if (Objects.nonNull(jwt) && jwtHelper.validateJwtToken(jwt))
+      Session session = sessionService.getSession(extractJwt(request));
+      if (Objects.nonNull(session) && session.active() && session.validBefore().isAfter(LocalDateTime.now()))
       {
-        String username = jwtHelper.getUserNameFromJwtToken(jwt);
+        UserDetails userDetails = UserDetailsModel.build(session.role(), session.email());
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,
                         userDetails.getAuthorities());
-        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
+        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authentication);
       }
     }
@@ -58,7 +58,7 @@ public class JwtFilter extends OncePerRequestFilter
     filterChain.doFilter(request, response);
   }
 
-  private String parseJwt(HttpServletRequest request)
+  private String extractJwt(HttpServletRequest request)
   {
     String headerAuth = request.getHeader("Authorization");
 

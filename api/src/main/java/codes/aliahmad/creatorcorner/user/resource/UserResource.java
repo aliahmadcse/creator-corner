@@ -33,4 +33,11 @@ public class UserResource
   {
     return new ResponseEntity<>(userService.updateUser(user), HttpStatus.CREATED);
   }
+
+  @GetMapping
+  public String getHello()
+  {
+    return "Hello World!";
+  }
+
 }

@@ -1,6 +1,7 @@
 package codes.aliahmad.creatorcorner.user.security.model;
 
 import codes.aliahmad.creatorcorner.user.entity.User;
+import codes.aliahmad.creatorcorner.user.model.ERole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,7 +17,6 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class UserDetailsModel implements UserDetails
 {
-  private final Long id;
   private final String email;
   private final String password;
   private final Collection<? extends GrantedAuthority> authorities;
@@ -27,12 +27,16 @@ public class UserDetailsModel implements UserDetails
             .map(role -> new SimpleGrantedAuthority(role.getName().getValue()))
             .collect(Collectors.toList());
 
-    return new UserDetailsModel(
-            user.getId(),
-            user.getEmail(),
-            user.getPassword(),
-            authorities);
+    return new UserDetailsModel(user.getEmail(), user.getPassword(), authorities);
   }
+
+  public static UserDetailsModel build(ERole role, String email)
+  {
+    List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(role.getValue()));
+
+    return new UserDetailsModel(email, null, authorities);
+  }
+
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities()
@@ -88,6 +92,6 @@ public class UserDetailsModel implements UserDetails
       return false;
     }
     UserDetailsModel user = (UserDetailsModel) o;
-    return Objects.equals(id, user.id);
+    return Objects.equals(email, user.email);
   }
 }

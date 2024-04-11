@@ -2,6 +2,7 @@ package codes.aliahmad.creatorcorner.user.entity;
 
 
 import codes.aliahmad.creatorcorner.common.entity.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
@@ -36,5 +37,6 @@ public class User extends BaseEntity
 
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "role_id", referencedColumnName = "id")
+  @JsonIgnoreProperties("users")
   private Role role;
 }

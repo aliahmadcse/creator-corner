@@ -2,6 +2,7 @@ package codes.aliahmad.creatorcorner.user.entity;
 
 import codes.aliahmad.creatorcorner.common.entity.BaseEntity;
 import codes.aliahmad.creatorcorner.user.model.ERole;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -28,5 +29,6 @@ public class Role extends BaseEntity
   private ERole name;
 
   @OneToMany(mappedBy = "role")
+  @JsonIgnoreProperties("role")
   private List<User> users;
 }

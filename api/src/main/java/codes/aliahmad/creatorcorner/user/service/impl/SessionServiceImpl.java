@@ -22,6 +22,10 @@ public class SessionServiceImpl implements SessionService
   @Override
   public Session getSession(String email)
   {
+    if (email == null)
+    {
+      return null;
+    }
     return sessionRepository.findById(email).orElse(null);
   }
 }
