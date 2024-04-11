@@ -9,6 +9,7 @@ public interface UserService
   User findById(Long id);
 
   boolean existByEmail(String email);
+
   User save(User user);
 
   User findByEmail(String email);
