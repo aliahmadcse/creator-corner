@@ -67,6 +67,14 @@ public class AuthServiceImpl implements AuthService
     return authenticateUser(signInRequest.getEmail(), signInRequest.getPassword());
   }
 
+  @Override
+  public void logout(String token)
+  {
+    Session session = sessionService.getSession(token.substring(7));
+    sessionService.saveSession(new Session(session.token(), session.email(), session.validBefore(),
+            false, session.role()));
+  }
+
   private JwtResponse authenticateUser(String email, String password)
   {
     Authentication authentication = authenticationManager.authenticate(
