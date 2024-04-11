@@ -2,6 +2,7 @@ package codes.aliahmad.creatorcorner.user.security.filter;
 
 import codes.aliahmad.creatorcorner.user.entity.Session;
 import codes.aliahmad.creatorcorner.user.security.model.UserDetailsModel;
+import codes.aliahmad.creatorcorner.user.security.util.JwtUtil;
 import codes.aliahmad.creatorcorner.user.service.SessionService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -64,7 +65,7 @@ public class JwtFilter extends OncePerRequestFilter
 
     if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer "))
     {
-      return headerAuth.substring(7);
+      return JwtUtil.extractToken(headerAuth);
     }
 
     return null;

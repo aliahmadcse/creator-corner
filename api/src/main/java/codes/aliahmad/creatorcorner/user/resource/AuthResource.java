@@ -9,6 +9,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,10 +46,10 @@ public class AuthResource
     return ResponseEntity.ok().build();
   }
 
-//  @GetMapping("/refresh")
-//  public ResponseEntity<JwtResponse> refreshAuth(@RequestParam("token") String token)
-//  {
-//    return new ResponseEntity<>(authService.refreshAuth(token), HttpStatus.OK);
-//  }
+  @GetMapping("/refresh")
+  public ResponseEntity<JwtResponse> refreshAuth(@AuthenticationPrincipal UserDetails userDetails)
+  {
+    return new ResponseEntity<>(authService.refreshAuth(userDetails.getUsername()), HttpStatus.OK);
+  }
 
 }

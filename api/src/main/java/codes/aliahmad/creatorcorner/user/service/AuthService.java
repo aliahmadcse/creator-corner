@@ -11,4 +11,6 @@ public interface AuthService
   JwtResponse authenticateUser(SignInRequest signInRequest);
 
   void logout(String token);
+
+  JwtResponse refreshAuth(String email);
 }

@@ -11,6 +11,7 @@ import codes.aliahmad.creatorcorner.user.entity.User;
 import codes.aliahmad.creatorcorner.user.model.ERole;
 import codes.aliahmad.creatorcorner.user.security.helper.JwtHelper;
 import codes.aliahmad.creatorcorner.user.security.model.UserDetailsModel;
+import codes.aliahmad.creatorcorner.user.security.util.JwtUtil;
 import codes.aliahmad.creatorcorner.user.service.AuthService;
 import codes.aliahmad.creatorcorner.user.service.RoleService;
 import codes.aliahmad.creatorcorner.user.service.SessionService;
@@ -70,9 +71,19 @@ public class AuthServiceImpl implements AuthService
   @Override
   public void logout(String token)
   {
-    Session session = sessionService.getSession(token.substring(7));
+    Session session = sessionService.getSession(JwtUtil.extractToken(token));
     sessionService.saveSession(new Session(session.token(), session.email(), session.validBefore(),
             false, session.role()));
+  }
+
+  @Override
+  public JwtResponse refreshAuth(String email)
+  {
+    User user = userService.findByEmail(email);
+    String jwt = jwtHelper.generateJwtToken(email);
+    sessionService.saveSession(new Session(jwt, email, getJwtExpiration(), true, user.getRole().getName()));
+
+    return new JwtResponse(jwt, email, user.getRole().getName().getValue());
   }
 
   private JwtResponse authenticateUser(String email, String password)
@@ -90,10 +101,15 @@ public class AuthServiceImpl implements AuthService
             .map(GrantedAuthority::getAuthority)
             .orElse(ERole.USER.getValue());
 
-    sessionService.saveSession(new Session(jwt, email, LocalDateTime.now().plusSeconds(JWT_EXPIRATION_SEC),
+    sessionService.saveSession(new Session(jwt, email, getJwtExpiration(),
             true, ERole.valueOf(role)));
 
     return new JwtResponse(jwt, userDetails.getUsername(), role);
+  }
+
+  private LocalDateTime getJwtExpiration()
+  {
+    return LocalDateTime.now().plusSeconds(JWT_EXPIRATION_SEC);
   }
 
 }
