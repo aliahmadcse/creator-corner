@@ -3,10 +3,12 @@ package codes.aliahmad.creatorcorner.common.exception.handler;
 import codes.aliahmad.creatorcorner.common.exception.BusinessError;
 import codes.aliahmad.creatorcorner.common.exception.BusinessException;
 import codes.aliahmad.creatorcorner.common.exception.ErrorType;
+import codes.aliahmad.creatorcorner.common.exception.ExceptionType;
 import codes.aliahmad.creatorcorner.common.model.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -34,6 +36,14 @@ public class CustomExceptionHandler
   {
     ErrorResponse response = new ErrorResponse(error.getMessage(), error.getErrorType().getStatus().value());
     return new ResponseEntity<>(response, error.getErrorType().getStatus());
+  }
+
+  @ExceptionHandler(AccessDeniedException.class)
+  public ResponseEntity<ErrorResponse> handleAccessDenied(AccessDeniedException error)
+  {
+    ErrorResponse response = new ErrorResponse(ExceptionType.ACCESS_DENIED.getMessage(),
+            ExceptionType.ACCESS_DENIED.getStatus().value());
+    return new ResponseEntity<>(response, ExceptionType.ACCESS_DENIED.getStatus());
   }
 
   @ExceptionHandler(Exception.class)
