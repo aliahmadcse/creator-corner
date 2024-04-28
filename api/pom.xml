@@ -9,10 +9,10 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>codes.aliahmad</groupId>
-  <artifactId>creator-corner</artifactId>
+  <artifactId>sprint-auth</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>creator-corner</name>
-  <description>creator-corner</description>
+  <name>spring-auth</name>
+  <description>spring-security-auth</description>
   <properties>
     <java.version>22</java.version>
     <jjwt.version>0.11.5</jjwt.version>
