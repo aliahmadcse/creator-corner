@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {
-  Subscription
-} from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +15,6 @@ export class AppComponent implements OnDestroy, OnInit {
   constructor(private activeRouteService: ActivatedRoute) {}
 
   ngOnInit(): void {
-
   }
 
   ngOnDestroy(): void {
