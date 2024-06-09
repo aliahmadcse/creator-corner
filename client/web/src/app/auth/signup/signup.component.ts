@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/state/app.state';
+import * as AuthActions from '../state/auth.action';
 
 @Component({
   selector: 'app-signup',
@@ -6,20 +9,22 @@ import { Component } from '@angular/core';
   styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent {
-
-  userEmail: string = '';
-  userPassword: string = '';
+  signUpRequest = {
+    email: '',
+    password: '',
+  };
   emailInvalid: boolean = false;
   passwordInvalid: boolean = false;
 
-
-  constructor() { }
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit(): void {
   }
 
 
   onSubmit() {
-    console.log('submitted');
+    if (this.signUpRequest.email && this.signUpRequest.password) {
+      this.store.dispatch(AuthActions.signUp({ signUpRequest: this.signUpRequest }));
+    }
   }
 }

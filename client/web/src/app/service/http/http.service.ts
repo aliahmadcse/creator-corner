@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 export class HttpService {
   API_URL = environment.apiUrl;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
   get<T>(path: string) {
     // return this.httpClient.get<T>(this.API_URL + path);
@@ -17,7 +17,7 @@ export class HttpService {
     );
   }
 
-  post(path: string, body: any) {
-    return this.httpClient.post(this.API_URL + path, body);
+  post<T, R>(path: string, body: T) {
+    return this.httpClient.post<R>(this.API_URL + path, body);
   }
 }
