@@ -3,7 +3,7 @@ import { JwtResponse } from '../auth.types';
 import * as AuthActions from './auth.action';
 
 
-const initialAuthState: JwtResponse = {
+export const initialAuthState: JwtResponse = {
   email: '',
   token: '',
   role: ''
