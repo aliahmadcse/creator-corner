@@ -9,7 +9,13 @@ export interface JwtResponse {
   role: string;
 }
 
+export interface AuthErrorResponse {
+  email?: string;
+  password?: string;
+  message?: string;
+}
+
 export interface AuthState {
-  authResponse: JwtResponse,
-  authError: {};
+  authResponse: JwtResponse;
+  authError: AuthErrorResponse;
 }

@@ -11,12 +11,15 @@ export const initialAuthState: AuthState = {
     role: ''
   },
   authError: {
-    error: {}
+    email: '',
+    password: '',
+    message: ''
   }
 };
 
 export const authReducer = createReducer(
   initialAuthState,
   on(AuthActions.signUpSuccess, (state, { jwtResponse }) => ({ ...state, authResponse: jwtResponse })),
-  on(AuthActions.signUpFailure, (state, { signUpFailure }) => ({ ...state, authError: signUpFailure }))
+  on(AuthActions.signUpFailure, (state, { signUpFailure }) => ({ ...state, authError: signUpFailure })),
+  on(AuthActions.clearSignUpErrors, (state) => ({ ...state, authError: {} })),
 );

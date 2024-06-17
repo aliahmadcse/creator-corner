@@ -4,6 +4,7 @@ import { AppState } from 'src/app/state/app.state';
 import * as AuthActions from '../state/auth.action';
 import { selectAuthErrorResponse, selectAuthResponse } from '../state/auth.selector';
 import { Subscription } from 'rxjs';
+import { AuthErrorResponse } from '../auth.types';
 
 @Component({
   selector: 'app-signup',
@@ -15,8 +16,11 @@ export class SignupComponent implements OnInit, OnDestroy {
     email: '',
     password: '',
   };
-  emailInvalid: boolean = false;
-  passwordInvalid: boolean = false;
+  error: AuthErrorResponse = {
+    email: '',
+    password: '',
+    message: '',
+  };
   subscription = new Subscription();
 
   constructor(private store: Store<AppState>) { }
@@ -26,9 +30,8 @@ export class SignupComponent implements OnInit, OnDestroy {
 
 
   onSubmit() {
-    if (this.signUpRequest.email && this.signUpRequest.password) {
-      this.store.dispatch(AuthActions.signUp({ signUpRequest: this.signUpRequest }));
-    }
+    this.store.dispatch(AuthActions.clearSignUpErrors());
+    this.store.dispatch(AuthActions.signUp({ signUpRequest: this.signUpRequest }));
 
     this.subscription.add(this.store.pipe(select(selectAuthResponse))
       .subscribe((data) => {
@@ -36,9 +39,9 @@ export class SignupComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.store.pipe(select(selectAuthErrorResponse)).subscribe((data) => {
-      console.log(data);
-    });
+    this.subscription.add(this.store.pipe(select(selectAuthErrorResponse)).subscribe((data) => {
+      this.error = data;
+    }));
   }
 
   ngOnDestroy(): void {
