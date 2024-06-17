@@ -18,6 +18,8 @@ export class HttpService {
   }
 
   post<T, R>(path: string, body: T) {
-    return this.httpClient.post<R>(this.API_URL + path, body);
+    return this.httpClient.post<R>(this.API_URL + path, body, {
+      observe: 'response'
+    });
   }
 }

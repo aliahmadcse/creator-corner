@@ -9,6 +9,7 @@ export interface JwtResponse {
   role: string;
 }
 
-export interface AuthErrorResponse {
-  error: Map<String, String>;
+export interface AuthState {
+  authResponse: JwtResponse,
+  authError: {};
 }

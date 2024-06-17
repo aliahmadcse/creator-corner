@@ -1,11 +1,17 @@
 import { createSelector } from '@ngrx/store';
 import { AppState } from 'src/app/state/app.state';
-import { JwtResponse } from '../auth.types';
+import { AuthState, JwtResponse } from '../auth.types';
 
 
 export const authSelector = (state: AppState) => state.auth;;
 
-export const selectAuth = createSelector(
+export const selectAuthResponse = createSelector(
   authSelector,
-  (state: JwtResponse) => state
+  (state: AuthState) => state.authResponse
+);
+
+
+export const selectAuthErrorResponse = createSelector(
+  authSelector,
+  (state: AuthState) => state.authError
 );

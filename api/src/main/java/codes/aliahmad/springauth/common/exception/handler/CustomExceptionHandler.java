@@ -10,8 +10,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
+
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 @ControllerAdvice
 @Slf4j
@@ -44,6 +51,18 @@ public class CustomExceptionHandler
     ErrorResponse response = new ErrorResponse(ExceptionType.ACCESS_DENIED.getMessage(),
             ExceptionType.ACCESS_DENIED.getStatus().value());
     return new ResponseEntity<>(response, ExceptionType.ACCESS_DENIED.getStatus());
+  }
+
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public final ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex, WebRequest request) {
+    Map<String, String> errors = new HashMap<>();
+    ex.getBindingResult().getAllErrors().forEach((error) -> {
+      String fieldName = ((FieldError) error).getField();
+      String errorMessage = error.getDefaultMessage();
+      errors.put(fieldName, errorMessage);
+    });
+
+    return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(Exception.class)
