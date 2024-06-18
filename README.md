@@ -17,12 +17,16 @@ This project implements jwt based authentication by utilizing the following tech
     git clone https://github.com/aliahmadcse/spring-security-auth.git
     ```
 2. Set up the backend
-`cd /api`
-Go through the [Backend](/api/README.md) setup instructions
+
+- `cd /api`
+
+- Go through the [Backend](/api/README.md) setup instructions
 
 3. Set up the Frontend
-`cd /client/web`
-Go through the [Frontend](/client/web/README.md) setup instructions
+
+- `cd /client/web`
+
+- Go through the [Frontend](/client/web/README.md) setup instructions
 
 
 ## Contributing
