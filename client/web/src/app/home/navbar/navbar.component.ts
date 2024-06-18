@@ -30,8 +30,12 @@ export class NavbarComponent implements OnInit {
   constructor(private store: Store<AppState>, private router: Router, private httpService: HttpService) { }
 
   logout() {
-    localStorage.removeItem('auth');
-    this.authenticated = false;
-    this.router.navigate(['/auth/signin']);
+    this.httpService.get("/auth/logout").subscribe(response => {
+      if (response.status === 200) {
+        localStorage.removeItem('auth');
+        this.authenticated = false;
+        this.router.navigate(['/auth/signin']);
+      }
+    });
   }
 }

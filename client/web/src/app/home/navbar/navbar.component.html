@@ -6,7 +6,7 @@
       <a routerLink="/user-details" class="text-gray-300 hover:text-white">User Details</a>
       <a routerLink="/auth/signin" *ngIf="!authenticated" class="text-gray-300 hover:text-white">Sign In</a>
       <a routerLink="/auth/signup" *ngIf="!authenticated" class="text-gray-300 hover:text-white">Sign Up</a>
-      <a routerLink="/auth/logout" *ngIf="authenticated" (click)="logout()" class="text-gray-300 hover:text-white">Logout</a>
+      <a routerLink="" *ngIf="authenticated" (click)="logout()" class="text-gray-300 hover:text-white">Logout</a>
     </div>
   </div>
 </nav>

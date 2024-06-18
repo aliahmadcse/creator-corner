@@ -38,7 +38,7 @@ export class SigninComponent implements OnInit, OnDestroy {
       .subscribe((data) => {
         if (data.token) {
           localStorage.setItem('auth', JSON.stringify(data));
-          this.router.navigate(['/user-details']);
+          this.router.navigate(['/']);
         }
       })
     );
