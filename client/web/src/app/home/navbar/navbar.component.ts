@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store, select } from '@ngrx/store';
+import { selectAuthResponse } from 'src/app/auth/state/auth.selector';
+import { HttpService } from 'src/app/service/http/http.service';
+import { getToken } from 'src/app/shared/shared';
+import { AppState } from 'src/app/state/app.state';
 
 @Component({
   selector: 'app-navbar',
@@ -8,24 +13,25 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-  isAuthenticated: boolean = false;
+  authenticated: boolean = false;
 
   ngOnInit() {
-    let auth = localStorage.getItem('auth');
-    let parsedAuth, token = undefined;
-    if (auth) {
-      parsedAuth = JSON.parse(auth);
-      token = parsedAuth.token;
-    }
-    if (token) {
-      this.isAuthenticated = true;
-    } else {
-      this.isAuthenticated = false;
-    }
+
+    this.store.pipe(select(selectAuthResponse)).subscribe(data => {
+      const token = getToken();
+      if (token || data.token) {
+        this.authenticated = true;
+      } else {
+        this.authenticated = false;
+      }
+    });
   }
-  constructor(public router: Router) {}
+
+  constructor(private store: Store<AppState>, private router: Router, private httpService: HttpService) { }
 
   logout() {
-
+    localStorage.removeItem('auth');
+    this.authenticated = false;
+    this.router.navigate(['/auth/signin']);
   }
 }

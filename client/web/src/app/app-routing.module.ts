@@ -8,6 +8,7 @@ const routes: Routes = [
   {
     path: '',
     component: FrontierComponent,
+    canActivate: [authGuard],
     loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
   },
   {
