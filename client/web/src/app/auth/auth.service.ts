@@ -1,6 +1,6 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { JwtResponse, SignUpRequest } from './auth.types';
+import { JwtResponse, SignInRequest, SignUpRequest } from './auth.types';
 import { HttpService } from '../service/http/http.service';
 import { Observable } from 'rxjs';
 
@@ -13,5 +13,9 @@ export class AuthService {
 
   signUp(signUpRequest: SignUpRequest): Observable<HttpResponse<JwtResponse>> {
     return this.httpService.post('/auth/signup', signUpRequest);
+  }
+
+  signIn(signInRequest: SignInRequest): Observable<HttpResponse<JwtResponse>> {
+    return this.httpService.post('/auth/signin', signInRequest);
   }
 }

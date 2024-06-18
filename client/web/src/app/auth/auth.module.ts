@@ -6,18 +6,18 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffect } from './state/auth.effect';
-import { StoreModule } from '@ngrx/store';
-import { authReducer } from './state/auth.reducer';
-
+import { authAbsentGuard } from './guard/auth-absent.guard';
 
 const routes: Routes = [
   {
     path: "signup",
-    component: SignupComponent
+    component: SignupComponent,
+    canActivate: [authAbsentGuard]
   },
   {
     path: "signin",
-    component: SigninComponent
+    component: SigninComponent,
+    canActivate: [authAbsentGuard]
   }
 ];
 

@@ -23,6 +23,18 @@ export class AuthEffect {
     )
   );
 
+  signIn$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(AuthActions.signIn),
+      exhaustMap((action) =>
+        this.authService.signIn(action.signInRequest).pipe(
+          map((jwtResponse) => this.handleSignInSuccess(jwtResponse)),
+          catchError((signInFailure) => of(this.handleSignInFailure(signInFailure)))
+        )
+      )
+    )
+  );
+
   private handleSignUpSuccess(response: HttpResponse<JwtResponse>) {
     if (response.status === 200 && response.body) {
       return AuthActions.signUpSuccess({ jwtResponse: response.body });
@@ -35,6 +47,21 @@ export class AuthEffect {
       return AuthActions.signUpFailure({ signUpFailure: error.error });
     } else {
       return AuthActions.signUpFailure({ signUpFailure: { "message": 'Something went wrong' } });
+    }
+  }
+
+  private handleSignInSuccess(response: HttpResponse<JwtResponse>) {
+    if (response.status === 200 && response.body) {
+      return AuthActions.signInSuccess({ jwtResponse: response.body });
+    }
+    return AuthActions.signInFailure({ signInFailure: { "message": "Something went wrong" } });
+  }
+
+  private handleSignInFailure(error: HttpErrorResponse) {
+    if ((error.status === 401 || error.status === 400) && error.error) {
+      return AuthActions.signInFailure({ signInFailure: error.error });
+    } else {
+      return AuthActions.signInFailure({ signInFailure: { "message": 'Something went wrong' } });
     }
   }
 }

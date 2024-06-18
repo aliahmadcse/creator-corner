@@ -4,8 +4,9 @@
     <div class="hidden md:flex space-x-6">
       <a routerLink="/" class="text-gray-300 hover:text-white">Home</a>
       <a routerLink="/user-details" class="text-gray-300 hover:text-white">User Details</a>
-      <a routerLink="/auth/signin" class="text-gray-300 hover:text-white">Sign In</a>
-      <a routerLink="/auth/signup" class="text-gray-300 hover:text-white">Sign Up</a>
+      <a routerLink="/auth/signin" *ngIf="!isAuthenticated" class="text-gray-300 hover:text-white">Sign In</a>
+      <a routerLink="/auth/signup" *ngIf="!isAuthenticated" class="text-gray-300 hover:text-white">Sign Up</a>
+      <a routerLink="/auth/logout" *ngIf="isAuthenticated" (click)="logout()" class="text-gray-300 hover:text-white">Logout</a>
     </div>
   </div>
 </nav>

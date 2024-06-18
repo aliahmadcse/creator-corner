@@ -31,7 +31,7 @@ export class SignupComponent implements OnInit, OnDestroy {
 
 
   onSubmit() {
-    this.store.dispatch(AuthActions.clearSignUpErrors());
+    this.store.dispatch(AuthActions.clearAuthErrors());
     this.store.dispatch(AuthActions.signUp({ signUpRequest: { ...this.signUpRequest } }));
 
     this.subscription.add(this.store.pipe(select(selectAuthResponse))

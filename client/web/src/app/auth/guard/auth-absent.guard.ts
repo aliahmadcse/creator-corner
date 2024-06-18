@@ -1,8 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { JwtResponse } from './auth.types';
 
-export const authGuard: CanActivateFn = (route, state) => {
+export const authAbsentGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
 
   let auth = localStorage.getItem('auth');
@@ -12,9 +11,9 @@ export const authGuard: CanActivateFn = (route, state) => {
     token = parsedAuth.token;
   }
   if (token) {
-    return true;
-  } else {
-    router.navigate(['/auth/signin']);
+    router.navigate(['/user-details']);
     return false;
+  } else {
+    return true;
   }
 };

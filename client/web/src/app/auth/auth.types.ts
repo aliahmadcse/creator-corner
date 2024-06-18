@@ -3,6 +3,10 @@ export interface SignUpRequest {
   password: string;
 }
 
+export interface SignInRequest extends SignUpRequest {
+}
+
+
 export interface JwtResponse {
   email: string;
   token: string;

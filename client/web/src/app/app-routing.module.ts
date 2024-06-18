@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UserDetailComponent } from './user/user-detail/user-detail.component';
 import { FrontierComponent } from './home/frontier/frontier.component';
-import { authGuard } from './auth/auth.guard';
+import { authGuard } from './auth/guard/auth.guard';
 
 const routes: Routes = [
   {
