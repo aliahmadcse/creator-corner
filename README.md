@@ -7,3 +7,14 @@ This project implements jwt based authentication by utilizing the following tech
 - PostgreSQL
 - Angular for Frontend
 - Redis for Jwt persistence
+
+
+
+## Building and Running the Project
+
+1. Clone the repository:
+
+    ```bash
+    git clone https://github.com/aliahmadcse/spring-security-auth.git
+    cd your-repo
+    ```

@@ -1,27 +1,41 @@
-# Web
+# Angular Frontend Project
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.0.
+## Table of Contents
+- [Overview](#overview)
+- [Prerequisites](#prerequisites)
+- [Setting Up Frontend](#setting-up-frontend)
+- [Running the Frontend](#running-the-frontend)
+- [Building the Frontend](#building-the-frontend)
 
-## Development server
+## Overview
+This is an Angular frontend project that interacts with a Spring Boot API. The project requires Node.js and Angular CLI for development and build purposes.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Prerequisites
+Before running the project, ensure you have the following installed:
 
-## Code scaffolding
+1. **Node.js and npm**: Download and install from [here](https://nodejs.org/).
+2. **Angular CLI**: Install globally using npm:
+    ```bash
+    npm install -g @angular/cli
+    ```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Setting Up Frontend
 
-## Build
+1. Install dependencies:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+    ```bash
+    npm install
+    ```
 
-## Running unit tests
+## Running the Frontend
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+1. Ensure the backend is running and accessible.
 
-## Running end-to-end tests
+2. Start the Angular development server:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+    ```bash
+    ng serve
+    ```
 
-## Further help
+3. Open your browser and navigate to `http://localhost:4200`.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
