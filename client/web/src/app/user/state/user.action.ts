@@ -1,10 +1,10 @@
-import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import { createActionGroup, props } from '@ngrx/store';
 import { User } from '../user.types';
 
 export const userPageActions = createActionGroup({
   source: 'User Detail API',
   events: {
-    getUser: emptyProps(),
+    getUserByEmail: props<{email: string}>(),
     getUserSuccess: props<{ user: User }>(),
     getUserFailure: props<{ error: any }>(),
 

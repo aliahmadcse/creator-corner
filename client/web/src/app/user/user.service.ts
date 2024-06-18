@@ -1,24 +1,17 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
 import { User } from './user.types';
+import { HttpService } from '../service/http/http.service';
+import { Observable } from 'rxjs';
+import { HttpResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  API_URL = environment.apiUrl;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpService: HttpService) { }
 
-  getUser() {
-    // return this.httpClient.get<T>(this.API_URL + path);
-    return this.httpClient.get<User>(
-      'https://jsonplaceholder.typicode.com/todos/1'
-    );
-  }
-
-  post(path: string, body: any) {
-    return this.httpClient.post(this.API_URL + path, body);
+  getUserByEmail(email: string): Observable<HttpResponse<User>> {
+    return this.httpService.get<User>(`/users/email/${email}`);
   }
 }

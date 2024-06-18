@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/state/app.state';
 import { userPageActions } from '../state/user.action';
+import { getAuthenticatedUserEmail, getToken } from 'src/app/shared/shared';
+import { selectUserResponse } from '../state/user.selector';
 
 @Component({
   selector: 'app-user-detail',
@@ -12,13 +14,16 @@ import { userPageActions } from '../state/user.action';
 export class UserDetailComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit(): void {
-    this.store.dispatch(userPageActions.getUser());
+    const email = getAuthenticatedUserEmail();
+    if (email) {
+      this.store.dispatch(userPageActions.getUserByEmail({ email }));
+    }
 
-    this.store.select('user').subscribe((data) => {
-      // console.log(data);
+    this.store.pipe(select(selectUserResponse)).subscribe((data) => {
+      console.log(data);
     });
   }
 
