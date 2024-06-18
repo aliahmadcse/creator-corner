@@ -5,6 +5,7 @@ import * as AuthActions from '../state/auth.action';
 import { selectAuthErrorResponse, selectAuthResponse } from '../state/auth.selector';
 import { Subscription } from 'rxjs';
 import { AuthErrorResponse } from '../auth.types';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -23,7 +24,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   };
   subscription = new Subscription();
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -31,11 +32,14 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.store.dispatch(AuthActions.clearSignUpErrors());
-    this.store.dispatch(AuthActions.signUp({ signUpRequest: this.signUpRequest }));
+    this.store.dispatch(AuthActions.signUp({ signUpRequest: { ...this.signUpRequest } }));
 
     this.subscription.add(this.store.pipe(select(selectAuthResponse))
       .subscribe((data) => {
-        console.log(data);
+        if (data.token) {
+          localStorage.setItem('auth', JSON.stringify(data));
+          this.router.navigate(['/user-details']);
+        }
       })
     );
 
